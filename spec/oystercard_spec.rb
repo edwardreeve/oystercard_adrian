@@ -13,4 +13,9 @@ describe Oystercard do
     subject.top_up(3)
     expect(subject.balance).to eq(3)
   end
+
+  it 'should error if try to top up balance above limit' do
+    subject.top_up(subject.limit)
+    expect { subject.top_up(1) }.to raise_error "You cannot top up beyond the limit of £#{subject.limit}"
+  end
 end
