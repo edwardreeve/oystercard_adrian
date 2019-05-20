@@ -3,7 +3,6 @@ class Oystercard
 
   LIMIT = 90
   TOP_UP_ERROR = "You cannot top up beyond the limit of £#{LIMIT}"
-
   def initialize(balance = 0)
     @balance = balance
     @limit = LIMIT
@@ -12,5 +11,9 @@ class Oystercard
   def top_up(amount)
     fail TOP_UP_ERROR if @balance + amount > @limit
     @balance += amount
+  end
+
+  def deduct(amount)
+    @balance -= amount
   end
 end
