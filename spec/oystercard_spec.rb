@@ -34,14 +34,19 @@ describe Oystercard do
   end
 
   it 'should change in_journey to true when touch_in' do
+    subject.top_up(subject.limit)
     subject.touch_in
     expect(subject).to be_in_journey
   end
 
   it 'should change in_journey to false when touch_out' do
+    subject.top_up(subject.limit)
     subject.touch_in
     subject.touch_out
     expect(subject).not_to be_in_journey
   end
 
+  it 'should throw insufficient balance error where applicable' do
+    expect { subject.touch_in }.to raise_error 'Insufficient balance to travel'
+  end
 end

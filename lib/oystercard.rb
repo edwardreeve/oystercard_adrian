@@ -2,7 +2,9 @@ class Oystercard
   attr_reader :balance, :limit
 
   LIMIT = 90
-  TOP_UP_ERROR = "You cannot top up beyond the limit of £#{LIMIT}"
+  MINIMUM_FARE = 1
+  TOP_UP_ERROR = "You cannot top up beyond the limit of £#{LIMIT}".freeze
+  INSUFFICIENT_BALANCE_ERROR = 'Insufficient balance to travel'.freeze
 
   def initialize(balance = 0)
     @balance = balance
@@ -11,7 +13,8 @@ class Oystercard
   end
 
   def top_up(amount)
-    fail TOP_UP_ERROR if @balance + amount > @limit
+    raise TOP_UP_ERROR if @balance + amount > @limit
+
     @balance += amount
   end
 
@@ -20,6 +23,8 @@ class Oystercard
   end
 
   def touch_in
+    raise INSUFFICIENT_BALANCE_ERROR if @balance < MINIMUM_FARE
+
     @in_journey = true
   end
 
